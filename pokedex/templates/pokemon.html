@@ -50,7 +50,12 @@
             <div class="row">
                 <div class="col-md-6">
                     <p class = 'proyecto-title'><strong>Nombre:</strong> {{ nombre }}</p>
-                    <p class = 'proyecto-title'><strong>Tipo:</strong> {{ tipoPokemon }}{% if tipoPokemon2 %} - {{ tipoPokemon2 }}{% endif %}</p>
+                    <p class='proyecto-title'><strong>Tipo:</strong> 
+                        <span class="type-label {{ tipoPokemon }}">{{ tipoPokemon }}</span>
+                        {% if tipoPokemon2 %}
+                        <span class="type-label {{ tipoPokemon2 }}">{{ tipoPokemon2 }}</span>
+                        {% endif %}
+                    </p>
                     <p class = 'proyecto-title'><strong>ID:</strong> {{ idPokemon }}</p>
                     <p class = 'proyecto-title'><strong>Altura:</strong> {{ altura }} M</p>
                     <p class = 'proyecto-title'><strong>Peso:</strong> {{ peso }} KG</p>
@@ -60,7 +65,10 @@
                 <div class="col-md-6">
                     <h2 class = 'proyecto-title'>Visualización del Pokemon</h2>
                     <img src="{{ photo }}" alt="{{ nombre }}" class="img-fluid pokemon-image">
+                    <img src="{{ photoBack }}" alt="{{ nombre }}" class="img-fluid pokemon-image">
+
                 </div>
+
                 
             </div>
         </div>
