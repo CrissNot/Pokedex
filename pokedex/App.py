@@ -18,6 +18,7 @@ class Pokedex():
             idPokemon = informacion_completa['id']
             nombre = informacion_completa['name']
             photo = informacion_completa['sprites']['front_default']
+            photoBack = informacion_completa['sprites']['back_default']
             altura = informacion_completa['height']
             peso = informacion_completa['weight']
             experiencia = informacion_completa['base_experience']
@@ -25,11 +26,12 @@ class Pokedex():
             tipos = informacion_completa['types']
             tipoPokemon = tipos[0]['type']['name']
             tipoPokemon2 = tipos[1]['type']['name'] if len(tipos) > 1 else None
-
+            flash('La información se ha cargado correctamete', 'success')
             return render_template('pokemon.html', 
                                    informacion_completa=informacion_completa, 
                                    nombre=nombre, 
-                                   photo=photo, 
+                                   photo=photo,
+                                   photoBack = photoBack, 
                                    idPokemon=idPokemon, 
                                    tipoPokemon=tipoPokemon, 
                                    tipoPokemon2=tipoPokemon2, 
@@ -79,6 +81,7 @@ class Pokedex():
         @self.app.errorhandler(500)
         def internal_server_error(e):
             return render_template('500.html'), 500
+        
     def run(self):
         self.app.run(debug=True)
 
