@@ -83,7 +83,7 @@ class Pokedex():
             return render_template('500.html'), 500
         
     def run(self):
-        self.app.run(debug=True)
+        self.app.run()
 
 
 if __name__ == '__main__':
