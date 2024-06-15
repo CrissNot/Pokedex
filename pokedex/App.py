@@ -26,7 +26,7 @@ class Pokedex():
             tipos = informacion_completa['types']
             tipoPokemon = tipos[0]['type']['name']
             tipoPokemon2 = tipos[1]['type']['name'] if len(tipos) > 1 else None
-            flash('La información se ha cargado correctamete', 'success')
+            flash('La información se ha cargado correctamente', 'success')
             return render_template('pokemon.html', 
                                    informacion_completa=informacion_completa, 
                                    nombre=nombre, 
@@ -83,7 +83,7 @@ class Pokedex():
             return render_template('500.html'), 500
         
     def run(self):
-        self.app.run()
+        self.app.run(debug=True)
 
 
 if __name__ == '__main__':
