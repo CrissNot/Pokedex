@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, flash
+from flask import Flask, render_template, redirect, url_for, flash, request
 import requests
 
 
@@ -60,11 +60,17 @@ class Pokedex():
 
         @self.app.route('/pokemones/<tipo>', methods=['GET', 'POST'])
         def pokemones(tipo):
+            tipo = tipo.lower()
             response = requests.get(f'{self.api}{tipo}')
-            data = response.json()
-            pokemones = [pokemon['pokemon']['name'] for pokemon in data['pokemon']]
-            total = len(pokemones)
-            return render_template('pokemones.html', pokemones=pokemones, tipo=tipo, total=total)
+            if response.status_code == 200:
+                data = response.json()
+                pokemones = [pokemon['pokemon']['name'] for pokemon in data['pokemon']]
+                total = len(pokemones)
+                return render_template('pokemones.html', pokemones=pokemones, tipo=tipo, total=total)
+            else:
+                flash('No sé encontró una categoria con su especificación')
+                print()
+                return render_template('categorias.html')
 
 
         @self.app.route('/pokemon_info/<nombre>', methods=['GET', 'POST'])
@@ -72,6 +78,23 @@ class Pokedex():
             return self.pokemones_stats(nombre)
         
         
+        @self.app.route('/buscar_tipo', methods=['GET', 'POST'])
+        def buscar_tipo():
+            if request.method == 'POST':
+                tipo = request.form['query']
+                return redirect(url_for('pokemones', tipo=tipo))
+            
+            else:
+                tipo = request.args.get('query')
+                return redirect(url_for('pokemones', tipo=tipo))
+            
+            
+        @self.app.route('/buscar_nombre', methods=['GET', 'POST'])
+        def buscar_nombre():
+            if request.method == 'POST':
+                tipo = request.form['nombre']
+                return redirect(url_for('pokemon_info', nombre=tipo.lower()))
+          
         
         @self.app.errorhandler(404)
         def page_not_found(e):
@@ -82,6 +105,8 @@ class Pokedex():
         def internal_server_error(e):
             return render_template('500.html'), 500
         
+    
+    
     def run(self):
         self.app.run(debug=True)
 
